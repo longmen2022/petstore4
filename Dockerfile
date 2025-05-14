@@ -6,14 +6,16 @@ FROM openjdk:17.0.2
 # Set working directory
 WORKDIR /usr/src/myapp
 
-# Copy application files
+# Copy application files, including Maven Wrapper
 COPY . .
-
-# Ensure mvnw has execution permissions
 RUN chmod +x mvnw
+RUN chmod +x .mvn/wrapper/maven-wrapper.jar
+
+# Ensure Maven Wrapper files are copied correctly
+RUN ls -la .mvn/wrapper/
 
 # Build the project
 RUN ./mvnw clean package
 
 # Start the application
-CMD ./mvnw cargo:run -P tomcat90
+CMD ["./mvnw", "cargo:run", "-P", "tomcat90"]
