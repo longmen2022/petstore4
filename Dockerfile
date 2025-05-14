@@ -6,12 +6,15 @@ FROM openjdk:17.0.2
 # Set working directory
 WORKDIR /usr/src/myapp
 
-# Copy application files, including Maven Wrapper
+# Copy application files, including Maven Wrapper directory explicitly
 COPY . .
+COPY .mvn/wrapper/ .mvn/wrapper/
+
+# Ensure mvnw and wrapper files have execution permissions
 RUN chmod +x mvnw
 RUN chmod +x .mvn/wrapper/maven-wrapper.jar
 
-# Ensure Maven Wrapper files are copied correctly
+# Verify that Maven Wrapper files exist in the container
 RUN ls -la .mvn/wrapper/
 
 # Build the project
